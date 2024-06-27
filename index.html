@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Agenda web">
+    <meta name="author" content="Yunior Feliz">
+    <title>Agenda Web</title>
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4 rounded-4 shadow" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/1200px-Unofficial_JavaScript_logo_2.svg.png" alt="" width="72" height="72">
+            <h2>Contactos JS</h2>
+            <p class="lead">Aplicación de contactos que almacena los datos en el navegador utilizando <strong><i>localStorage</i></strong>.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Tus contactos</span>
+                    <span class="badge badge-secondary badge-pill" id="contact-count">0</span>
+                </h4>
+                <ul class="list-group mb-3" id="contacts-list">
+                    <!-- Contacts will be displayed here -->
+                </ul>
+            </div>
+            <div class="col-md-8 order-md-1">
+                <h4 class="mb-3">Información personal</h4>
+                <form class="needs-validation" id="contact-form" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName">Nombre</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Introduce un nombre
+                            </div>
+                            <div class="valid-feedback">
+                                Perfecto!
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName">Apellido</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Introduce un apellido
+                            </div>
+                            <div class="valid-feedback">
+                                Perfecto!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Introduce un correo electrónico válido
+                            </div>
+                            <div class="valid-feedback">
+                                Perfecto!
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="phone">Teléfono</label>
+                            <input type="number" class="form-control" id="phone" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Introduce un número de teléfono válido
+                            </div>
+                            <div class="valid-feedback">
+                                Perfecto!
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="">
+                    <div class="custom-control custom-checkbox mb-3">
+                        <input type="checkbox" class="custom-control-input" id="save-info" name="allow-emails">
+                        <label class="custom-control-label" for="save-info">Permitir enviar correos</label>
+                    </div>
+                    <hr class="mb-4">
+
+                    <h4 class="mb-3">Información profesional</h4>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="business">Empresa / Institución</label>
+                            <input type="text" class="form-control" id="business" placeholder="">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="position">Cargo / posición</label>
+                            <input type="text" class="form-control" id="position" placeholder="">
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" onclick="saveContact(event)" data-mdb-ripple-init type="submit">Guardar contacto</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- info modal -->
+        <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="contactModalLabel">Detalles del contacto</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-content">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">&copy; 2024 Yunior Contacts</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Support</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+    </script>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function saveContact(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get form elements
+            const form = document.getElementById('contact-form');
+            if (form.checkValidity() === false) {
+                form.classList.add('was-validated');
+                return;
+            }
+
+            // Get input values
+            const name = document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const allowEmails = document.getElementById('save-info').checked ? 'Success' : 'Secondary';
+
+            // Retrieve existing contacts or initialize an empty array
+            const existingContacts = JSON.parse(localStorage.getItem('contacts')) || [];
+            const newContact = {
+                name,
+                email,
+                phone,
+                allowEmails,
+                date: new Date().toLocaleDateString()
+            };
+
+            // Add the new contact to the array
+            existingContacts.push(newContact);
+
+            // Save the updated array back to localStorage
+            localStorage.setItem('contacts', JSON.stringify(existingContacts));
+
+            // Show a success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Contact saved!',
+                text: 'Your contact has been added successfully.',
+            });
+
+            // Reset the form
+            form.reset();
+            form.classList.remove('was-validated');
+
+            // Update the contact list display
+            displayContacts();
+        }
+
+        function displayContacts() {
+            const contactsList = document.getElementById('contacts-list');
+            contactsList.innerHTML = ''; // Clear existing contacts
+            const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+            document.getElementById('contact-count').textContent = contacts.length;
+
+            if (contacts.length === 0) {
+                contactsList.innerHTML = '<li class="list-group-item text-center">No contacts created</li>';
+                return;
+            }
+
+            contacts.forEach((contact, index) => {
+                const badgeClass = contact.allowEmails === 'Success' ? 'badge-success' : 'badge-secondary';
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                listItem.innerHTML = `
+            <div>
+                <h6 class="my-0">${contact.name}</h6>
+                <small class="text-muted">${contact.email}</small><br>
+                <span class="badge rounded-pill ${badgeClass}">${contact.allowEmails}</span>
+            </div>
+            <span class="text-muted">${contact.date}</span>
+            <button class="btn btn-info btn-sm" onclick="viewContact(${index})"><i class="fas fa-info-circle"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="confirmDelete(${index})"><i class="fas fa-trash"></i></button>
+        `;
+                contactsList.appendChild(listItem);
+            });
+        }
+
+        function confirmDelete(index) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to delete this contact?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteContact(index);
+                    Swal.fire(
+                        'Deleted!',
+                        'Your contact has been deleted.',
+                        'success'
+                    );
+                }
+            });
+        }
+
+        // view in modal
+        function viewContact(index) {
+            const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+            const contact = contacts[index];
+
+            const contactInfo = `
+            <p><strong>Name:</strong> ${contact.name}</p>
+            <p><strong>Email:</strong> ${contact.email}</p>
+            <p><strong>Phone:</strong> ${contact.phone}</p>
+            <p><strong>Allow Emails:</strong> ${contact.allowEmails === 'Success' ? 'Yes' : 'No'}</p>
+            <p><strong>Date Added:</strong> ${contact.date}</p>
+        `;
+
+            document.getElementById('modal-body-content').innerHTML = contactInfo;
+
+            const contactModal = new mdb.Modal(document.getElementById('contactModal'));
+            contactModal.show();
+        }
+
+        // Function to delete a contact
+        function deleteContact(index) {
+            const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+            contacts.splice(index, 1); // Remove the contact at the given index
+            localStorage.setItem('contacts', JSON.stringify(contacts));
+            displayContacts(); // Refresh the contacts display
+        }
+
+        // Display contacts when the page loads
+        window.onload = displayContacts;
+    </script>
+</body>
+
+</html>
