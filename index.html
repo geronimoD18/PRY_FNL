@@ -159,7 +159,7 @@
             const name = document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
-            const allowEmails = document.getElementById('save-info').checked ? 'Success' : 'Secondary';
+            const allowEmails = document.getElementById('save-info').checked ? 'Permitir Correos' : 'No Correos';
 
             // Retrieve existing contacts or initialize an empty array
             const existingContacts = JSON.parse(localStorage.getItem('contacts')) || [];
@@ -168,7 +168,9 @@
                 email,
                 phone,
                 allowEmails,
-                date: new Date().toLocaleDateString()
+                date: new Date().toLocaleDateString(),
+                business,
+                position
             };
 
             // Add the new contact to the array
@@ -252,7 +254,9 @@
             <p><strong>Name:</strong> ${contact.name}</p>
             <p><strong>Email:</strong> ${contact.email}</p>
             <p><strong>Phone:</strong> ${contact.phone}</p>
-            <p><strong>Allow Emails:</strong> ${contact.allowEmails === 'Success' ? 'Yes' : 'No'}</p>
+            <p><strong>Allow Emails:</strong> ${contact.allowEmails === 'Permitir Correos' ? 'Yes' : 'No'}</p>
+            <p><strong>Empresa:</strong> ${contact.business === "" ? "No hay registro" : contact.business}</p>
+            <p><strong>Puesto:</strong> ${contact.position === "" ? "No hay registro" : contact.position}</p>
             <p><strong>Date Added:</strong> ${contact.date}</p>
         `;
 
