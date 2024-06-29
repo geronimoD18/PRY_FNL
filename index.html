@@ -146,16 +146,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function saveContact(event) {
-            event.preventDefault(); // Prevent form submission
+            event.preventDefault(); // función para evitar que se envíen los datos, recargue la página y se pueda validar el formulario
 
-            // Get form elements
+            // validar cada campo para asegurarnos de que no están vacíos 
             const form = document.getElementById('contact-form');
             if (form.checkValidity() === false) {
                 form.classList.add('was-validated');
                 return;
             }
 
-            // Get input values
+            // se recolectan los datos que se introdujeron en los input
             const name = document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
@@ -163,7 +163,7 @@
             const position = document.querySelector('#position').value;
             const allowEmails = document.getElementById('save-info').checked ? 'Permitir Correos' : 'No Correos';
 
-            // Retrieve existing contacts or initialize an empty array
+            // se inicializa un nuevo arreglo con los campos para el perfil
             const existingContacts = JSON.parse(localStorage.getItem('contacts')) || [];
             const newContact = {
                 name,
@@ -175,27 +175,28 @@
                 position
             };
 
-            // Add the new contact to the array
+            // se agrega el objeto contacto al array
             existingContacts.push(newContact);
 
-            // Save the updated array back to localStorage
+            // se guarda el array actualizado al localStorage
             localStorage.setItem('contacts', JSON.stringify(existingContacts));
 
-            // Show a success message
+            // mensaje de guardado
             Swal.fire({
                 icon: 'success',
                 title: 'Contact saved!',
                 text: 'Your contact has been added successfully.',
             });
 
-            // Reset the form
+            // se limpia el formulario
             form.reset();
             form.classList.remove('was-validated');
 
-            // Update the contact list display
+            // se invoca la función para mostrar los contactos guardados
             displayContacts();
         }
 
+        // función para mostrar contactos guardados
         function displayContacts() {
             const contactsList = document.getElementById('contacts-list');
             contactsList.innerHTML = ''; // Clear existing contacts
@@ -207,8 +208,9 @@
                 return;
             }
 
+            // se crea un elemento li de lista para cada contacto
             contacts.forEach((contact, index) => {
-                const badgeClass = contact.allowEmails === 'Success' ? 'badge-success' : 'badge-secondary';
+                const badgeClass = contact.allowEmails === 'Permitir Correos' ? 'badge-success' : 'badge-secondary';
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
                 listItem.innerHTML = `
@@ -225,6 +227,7 @@
             });
         }
 
+        // función para borrar contactos y mostrar una confirmación de borrado
         function confirmDelete(index) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -247,6 +250,8 @@
             });
         }
 
+
+        // función para ver los detallws del contacto
         // view in modal
         function viewContact(index) {
             const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
@@ -268,7 +273,7 @@
             contactModal.show();
         }
 
-        // Function to delete a contact
+        // función para borrar un contacto
         function deleteContact(index) {
             const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
             contacts.splice(index, 1); // Remove the contact at the given index
@@ -276,7 +281,7 @@
             displayContacts(); // Refresh the contacts display
         }
 
-        // Display contacts when the page loads
+        // se invoca la función para mostra contactos
         window.onload = displayContacts;
     </script>
 </body>
